@@ -1,0 +1,55 @@
+<div xmlns:th="https://www.thymeleaf.org/" th:fragment="sidebar" id="sidebar" class="sidebar responsive ace-save-state">
+	<script type="text/javascript">
+		try{ace.settings.loadState('sidebar')}catch(e){}
+	</script>
+
+	
+	<ul class="nav nav-list">
+		<li class="">
+			<a th:href="@{/}" href="index.html">
+				<i class="menu-icon fa fa-tachometer"></i>
+				<span class="menu-text"> 系统首页 </span>
+			</a>
+
+			<b class="arrow"></b>
+		</li>
+                 
+		<!--
+                      open:表示菜单打开
+			 active：表示菜单选中
+		-->
+		<th:block th:object="${session.SPRING_SECURITY_CONTEXT.authentication.principal}">
+		<li class="open " th:each="modular:*{user.modulars}">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-desktop"></i>
+				<span class="menu-text" th:text="${modular.modularName}"></span>
+
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+
+			<b class="arrow"></b>
+
+			<ul class="submenu" >
+			<!-- 判断必须是顶级菜单，而且模块对应，才显示 -->
+			   	<li th:each="permission:*{user.role.permissions}" class="" th:if="${permission.permissionParent}==0 and ${permission.modularId}==${modular.modularId}">
+					<a th:href="@{${permission.permissionAction}}" href="adminList.html">
+						<i class="menu-icon fa fa-caret-right"></i>
+						[[${permission.permissionName}]]
+					</a>
+
+					<b class="arrow"></b>
+				</li>
+
+			</ul>
+		</li>
+		</th:block>
+	
+
+
+
+	</ul><!-- /.nav-list -->
+
+	<div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+		<i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+	</div>
+</div>

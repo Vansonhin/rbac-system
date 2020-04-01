@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+		<head th:include="~{/commons/header.html::header}">
+
+	</head>
+
+	<body class="no-skin">
+	    <!-- 导航栏 start		-->
+		 <th:block th:insert="~{/commons/navbar.html::navbar}"></th:block>
+		<!-- 导航栏 end -->
+
+		<div class="main-container ace-save-state" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+			</script>
+            <!--- 左边栏-菜单 start -->
+			<th:block th:insert="~{/commons/sidebar.html::sidebar}"></th:block>
+			<!--- 左边栏-菜单 end -->
+
+			<!--- 内容主体 start -->
+			<div class="main-content">
+				<div class="main-content-inner">
+				    <!-- 向导栏 start-->
+					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+						<ul class="breadcrumb">
+								<li>
+								<i class="ace-icon fa fa-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+
+							<li>
+								<a href="#">角色管理</a>
+							</li>
+							<li class="active">角色-列表</li>
+						</ul><!-- /.breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- /.nav-search -->
+					</div>
+					<!-- 向导栏 end-->
+
+					<!-- 内容页 start -->
+					<div class="page-content">
+				          			<div class="widget-box transparent" id="widget-box-13">
+												<div class="widget-header">
+													<h4 class="widget-title lighter">角色管理</h4>
+
+													<div class="widget-toolbar no-border">
+														<ul class="nav nav-tabs" id="myTab2">
+															<li  class="active">
+																<a data-toggle="tab" href="#roleAdd">增加</a>
+															</li>
+
+													
+
+															<li>
+																<a data-toggle="tab" href="javascript:void(0)" th:onclick="window.location.href=[[@{/role/roleList/0}]]">列表</a>
+															</li>
+														</ul>
+													</div>
+												</div>
+
+												<div class="widget-body">
+													<div class="widget-main padding-12 no-padding-left no-padding-right">
+														<div class="tab-content padding-4">
+														
+															<div id="roleAdd" class="tab-pane in active ">
+																<div class="scrollable-horizontal" data-size="800">
+																	[[${role_add_msg}]]
+																	<form th:action="@{/role/roleAdd}" method="post" class="form-horizontal" role="form">
+																		<div class="form-group">
+																			<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 角色名 </label>
+
+																			<div class="col-sm-9">
+																				<input name="roleName" type="text" id="form-field-1" placeholder="角色名" class="col-xs-10 col-sm-5" />
+																			</div>
+																		</div>
+
+																		<div class="form-group">
+																			<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 全部权限 <input id="chkAllPermissions"  type="checkbox" /></label>
+
+																		</div>
+																		
+																		<div class="form-group" th:each="modular:${modulars}">
+																			<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> [[${modular.modularName}]]<input onclick="chkModularPermission(this)"  type="checkbox" /></label>
+
+																			<div class="col-sm-6">
+																			    <!-- 问题：每四条权限，换行 -->
+																			    <table class="table">
+																			       <th:block th:each="permission,status:${modular.permissions}">
+																			           <th:block th:if="${status.index%4}==0">
+																					    <tr >
+																					   </th:block>
+																					     <td>[[${permission.permissionName}]]<input  name="permissionIds" th:value="${permission.permissionId}"  type="checkbox" /></td>
+																				 
+																					 
+																					    <th:block th:if="${(status.index+1)%4}==0">
+																					    </tr>
+																					    </th:block>
+																					   
+																				    </th:block>
+																				 
+																				</table>
+																				
+																			</div>
+																		</div>
+
+																		<div class="form-group">
+																			
+																			<div class="col-sm-7 text-right">
+																				<button type="submit" class="btn btn-primary">增加角色</button>
+																			</div>
+																		</div>
+																	</form>
+
+																</div>
+															</div>
+
+												
+														</div>
+													</div>
+												</div>
+											</div>
+					</div><!-- /.page-content -->
+					<!-- 内容页 end -->
+				</div>
+			</div><!-- /.main-content -->
+			<!--- 内容主体 end -->
+
+			 <!--页尾 start -->
+			 <th:block th:insert="~{commons/footer.html::footer}"></th:block>
+		
+			 <!--页尾 end -->
+		</div><!-- /.main-container -->
+		<script type="text/javascript">
+		   //全选，反选
+		   $("#chkAllPermissions").click(function(){
+			   if($(this).prop("checked")==true){
+				   $("input[type='checkbox']").prop("checked",true);
+			   }else{
+				   $("input[type='checkbox']").prop("checked",false);  
+			   }
+		   });
+		   //全选指定模块
+		   var chkModularPermission=function(o){
+			  //取到当前选中区域的公共标签，使用找父标签的方法
+			 var parent=  $(o).parents(".form-group");
+			  //判断当前选中的选择框是否选中
+			 if($(o).prop("checked")==true){
+				 //如果当前选择框，选中，该区域的所有子标签的复选框全部选中
+				 $(parent.find("input[type='checkbox']")).prop("checked",true);
+			 }else{
+				 //如果当前选择框，不选中，该区域的所有子标签的复选框全部不选中
+				 $(parent.find("input[type='checkbox']")).prop("checked",false);
+			 }
+			 
+		   }
+		</script>
+
+		
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+	<head th:include="~{/commons/header.html::header}"></head>
+
+	<body class="no-skin">
+	    <!-- 导航栏 start		-->
+        <th:block th:insert="~{/commons/navbar.html::navbar}"></th:block>
+		<!-- 导航栏 end -->
+
+		<div class="main-container ace-save-state" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.loadState('main-container')}catch(e){}
+			</script>
+            <!--- 左边栏-菜单 start -->
+            <th:block th:insert="~{/commons/sidebar.html::sidebar}"></th:block>
+			<!--- 左边栏-菜单 end -->
+
+			<!--- 内容主体 start -->
+			<div class="main-content">
+				<div class="main-content-inner">
+				    <!-- 向导栏 start-->
+					<div class="breadcrumbs ace-save-state" id="breadcrumbs">
+						<ul class="breadcrumb">
+							<li>
+								<i class="ace-icon fa fa-home home-icon"></i>
+								<a href="#">首页</a>
+							</li>
+
+							<li>
+								<a href="#">首页</a>
+							</li>
+							<li class="active">首页</li>
+						</ul><!-- /.breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="ace-icon fa fa-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- /.nav-search -->
+					</div>
+					<!-- 向导栏 end-->
+
+					<!-- 内容页 start -->
+					<div class="page-content">
+				           你好世界！！！
+					</div><!-- /.page-content -->
+					<!-- 内容页 end -->
+				</div>
+			</div><!-- /.main-content -->
+			<!--- 内容主体 end -->
+
+			 <!--页尾 start -->
+	         <th:block th:insert="~{commons/footer.html::footer}"></th:block>
+
+		
+			 <!--页尾 end -->
+		</div><!-- /.main-container -->
+
+		
+	</body>
+</html>
